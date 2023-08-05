@@ -27,7 +27,7 @@ Este arquivo corresponde ao slide final de apresentação que será utilizado pe
 ## 5. Arquivo em vídeo videoDemostrativo.mp4
 Este vídeo demonstra a funcionalidade do formulário, permitindo uma melhor compreensão de seu funcionamento após as melhorias implementadas.
 
-#Grupo Composto por:
+## Grupo Composto por:
 ---
 - CARLOS GABRIEL S. MODESTO
 - MARIA ISABELLI PINTO
