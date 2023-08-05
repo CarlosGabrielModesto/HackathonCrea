@@ -28,7 +28,7 @@ Este arquivo corresponde ao slide final de apresentação que será utilizado pe
 Este vídeo demonstra a funcionalidade do formulário, permitindo uma melhor compreensão de seu funcionamento após as melhorias implementadas.
 
 ## Grupo Composto por:
----
+
 - CARLOS GABRIEL S. MODESTO
 - MARIA ISABELLI PINTO
 - VITOR BATISTA FOGAR
