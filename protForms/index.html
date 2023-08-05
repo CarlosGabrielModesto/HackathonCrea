@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ART - Obra/Serviço</title>
+    <link rel="stylesheet" href="modalform.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Inclui o flatpickr para preencher a data de celebração do contrato na paete 2 do formulário -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+</head>
+
+<body>
+
+
+
+    <!-- Conteúdo principal -->
+
+    <!-- Etapa 1: Dados Iniciais -->
+    <div class="etapa atual" id="etapa1">
+
+        <form id="form-step-1">
+            <h1>Etapa 1: Dados Iniciais</h1>
+            <!-- Campo: Forma de registro da ART -->
+            <label for="forma-registro-art">Forma de registro da ART<span style="color: red;">*</span>:</label>
+            <select id="forma-registro-art" name="forma-registro-art" onchange="toggleNumeroArtVinculada()" required>
+                <!-- Opção padrão para campos bloqueados -->
+                <option value="">Selecione...</option>
+                <!-- Opções para escolher a forma de registro -->
+                <option value="inicial">Inicial - Primeira ART</option>
+                <option value="substituicao-modificacao">Substituição - Modificação do contrato ou atividade técnica
+                    contratada</option>
+                <option value="substituicao-retificada">Substituição retificada - Quando não muda dados de contrato
+                </option>
+            </select>
+            <br>
+            <!-- Campo: Número da ART vinculada -->
+            <label for="numero-art-vinculada">N° da ART vinculada:</label>
+            <input type="text" id="numero-art-vinculada" name="numero-art-vinculada" disabled>
+            <br>
+            <!-- Campo: Participação técnica -->
+            <label for="participacao-tecnica">Participação técnica<span style="color: red;">*</span>:</label>
+            <select id="participacao-tecnica" name="participacao-tecnica" required>
+                <!-- Opção padrão para campos bloqueados -->
+                <option value="">Selecione...</option>
+                <!-- Opções para escolher o tipo de participação técnica -->
+                <option value="coautor">Coautor</option>
+                <option value="coautor-vinculada">Coautor - Vinculada</option>
+                <option value="corresponsabilidade">Corresponsabilidade</option>
+                <option value="corresponsabilidade-vinculada">Corresponsabilidade - Vinculada</option>
+                <option value="equipe">Equipe</option>
+                <option value="equipe-vinculada">Equipe - Vinculada</option>
+                <option value="individual">Individual</option>
+            </select>
+            <br>
+
+            <!-- Área para os campos da "Empresa Vinculada" -->
+            <fieldset>
+                <legend>Empresa Vinculada</legend>
+                <!-- Campo: Registro da empresa vinculada -->
+                <label for="registro-empresa">Registro da empresa:</label>
+                <input type="text" id="registro-empresa" name="registro-empresa">
+                <!-- Ícone de lupa para abrir o modal -->
+                <span class="modal-open" onclick="openModal()">🔍</span>
+                <!-- Campo: CNPJ da empresa vinculada -->
+                <label for="cnpj-empresa">CNPJ da empresa:</label>
+                <input type="text" id="cnpj-empresa" name="cnpj-empresa">
+                <br>
+                <!-- Campo: Empresa contratada -->
+                <label for="empresa-contratada">Empresa contratada:</label>
+                <input type="text" id="empresa-contratada" name="empresa-contratada">
+                <br>
+            </fieldset>
+
+            <!-- Modal que abre ao clicar na lupa para o registro da empresa -->
+            <div class="modal" id="modal">
+                <div class="modal-content">
+                    <label for="registro-empresa-modal">Registro da empresa:</label>
+                    <input type="text" id="registro-empresa-modal" name="registro-empresa-modal">
+                    <label for="cnpj-empresa-modal">CNPJ da empresa:</label>
+                    <input type="text" id="cnpj-empresa-modal" name="cnpj-empresa-modal">
+                    <label for="empresa-contratada-modal">Empresa contratada:</label>
+                    <input type="text" id="empresa-contratada-modal" name="empresa-contratada-modal">
+                    <label for="nome-fantasia-modal">Nome Fantasia:</label>
+                    <input type="text" id="nome-fantasia-modal" name="nome-fantasia-modal">
+                    <br>
+                    <button class="modal-close" onclick="closeModal()">Fechar</button>
+                </div>
+            </div>
+
+            <!-- Botão para avançar para a próxima etapa -->
+            <input type="button" value="Avançar" data-etapa-atual="etapa1" data-etapa-seguinte="etapa2"
+                class="botao-avancar">
+
+        </form>
+    </div>
+
+
+    <!-- Etapa 2: Dados de Contrato -->
+    <div class="etapa" id="etapa2">
+        <form id="form-step-2">
+            <h1>Etapa 2: Dados de Contrato</h1>
+            <!-- Campo 1: Tipo de Contratante -->
+            <label for="tipo-contratante">Tipo de Contratante</label>
+            <select id="tipo-contratante" name="tipo-contratante" required>
+                <!-- Opção padrão para seleção -->
+                <option value="">Selecione...</option>
+                <!-- Opções para escolher o tipo de contratante -->
+                <option value="pessoa-fisica">Pessoa Física</option>
+                <option value="pessoa-fisica-estrangeira">Pessoa Física Estrangeira</option>
+                <option value="pessoa-juridica-privado">Pessoa Jurídica de Direito Privado</option>
+                <option value="pessoa-juridica-publico">Pessoa Jurídica de Direito Público</option>
+                <option value="pessoa-juridica-estrangeira">Pessoa Jurídica Estrangeira</option>
+            </select>
+            <br>
+
+            <!-- Campo 2: Contratante -->
+            <label for="contratante">Contratante<span style="color: red;">*</span>:</label>
+            <input type="text" id="contratante" name="contratante" required>
+            <br>
+
+            <!-- Campo 3: CPF/CNPJ -->
+            <label for="cpf-cnpj">CPF/CNPJ<span style="color: red;">*</span>:</label>
+            <input type="text" id="cpf-cnpj" name="cpf-cnpj" required oninput="formatarCPFCNPJ()">
+            <br>
+
+            <fieldset>
+                <legend>Endereço do Contratante</legend>
+                <!-- Campo: País -->
+                <label for="pais-contratante">País<span style="color: red;">*</span>:</label>
+                <select id="pais-contratante" name="pais-contratante" onchange="atualizarSimboloMoeda()" required>
+                    <!-- Opção padrão para seleção -->
+                    <option value="">Selecione...</option>
+                    <!-- Opções para escolher o país -->
+                    <option value="ZA">África do Sul</option>
+                    <option value="DE">Alemanha</option>
+                    <option value="AO">Angola</option>
+                    <option value="SA">Arábia Saudita</option>
+                    <option value="AR">Argentina</option>
+                    <option value="AM">Armênia</option>
+                    <option value="AU">Austrália</option>
+                    <option value="AT">Áustria</option>
+                    <option value="BS">Bahamas</option>
+                    <option value="BH">Bahrein</option>
+                    <option value="BB">Barbados</option>
+                    <option value="BE">Bélgica</option>
+                    <option value="BJ">Benin</option>
+                    <option value="BO">Bolívia</option>
+                    <option value="BA">Bósnia e Herzegovina</option>
+                    <option value="BR">Brasil</option>
+                    <option value="BG">Bulgária</option>
+                    <option value="CV">Cabo Verde</option>
+                    <option value="CM">Camarões</option>
+                    <option value="KH">Camboja</option>
+                    <option value="CA">Canadá</option>
+                    <option value="CL">Chile</option>
+                    <option value="CY">Chipre</option>
+                    <option value="CO">Colômbia</option>
+                    <option value="CD">Congo</option>
+                    <option value="KP">Coreia do Norte</option>
+                    <option value="KR">Coreia do Sul</option>
+                    <option value="CI">Costa do Marfim</option>
+                    <option value="CR">Costa Rica</option>
+                    <option value="HR">Croácia</option>
+                    <option value="CU">Cuba</option>
+                    <option value="CW">Curaçao</option>
+                    <option value="DK">Dinamarca</option>
+                    <option value="EG">Egito</option>
+                    <option value="SV">El Salvador</option>
+                    <option value="EC">Equador</option>
+                    <option value="SI">Eslovênia</option>
+                    <option value="ES">Espanha</option>
+                    <option value="US">Estados Unidos da América</option>
+                    <option value="EE">Estônia</option>
+                    <option value="ET">Etiópia</option>
+                    <option value="PH">Filipinas</option>
+                    <option value="FI">Finlândia</option>
+                    <option value="GM">Gâmbia</option>
+                    <option value="GH">Gana</option>
+                    <option value="GB">Grã-Bretanha</option>
+                    <option value="GD">Granada</option>
+                    <option value="GR">Grécia</option>
+                    <option value="GT">Guatemala</option>
+                    <option value="GY">Guiana</option>
+                    <option value="GN">Guiné</option>
+                    <option value="GW">Guiné-Bissau</option>
+                    <option value="HT">Haiti</option>
+                    <option value="NL">Holanda</option>
+                    <option value="HN">Honduras</option>
+                    <option value="HK">Hong Kong</option>
+                    <option value="HU">Hungria</option>
+                    <option value="VG">Ilhas Virgens Britânicas</option>
+                    <option value="IN">Índia</option>
+                    <option value="ID">Indonésia</option>
+                    <option value="GB">Inglaterra</option>
+                    <option value="IQ">Iraque</option>
+                    <option value="IS">Islândia</option>
+                    <option value="IL">Israel</option>
+                    <option value="IT">Itália</option>
+                    <option value="JP">Japão</option>
+                    <option value="JO">Jordânia</option>
+                    <option value="KW">Kuwait</option>
+                    <option value="LA">Laos</option>
+                    <option value="LB">Líbano</option>
+                    <option value="LY">Líbia</option>
+                    <option value="LI">Liechtenstein</option>
+                    <option value="LT">Lituânia</option>
+                    <option value="LU">Luxemburgo</option>
+                    <option value="MG">Madagascar</option>
+                    <option value="MY">Malásia</option>
+                    <option value="MW">Malawi</option>
+                    <option value="MT">Malta</option>
+                    <option value="MA">Marrocos</option>
+                    <option value="MU">Maurício</option>
+                    <option value="MX">México</option>
+                    <option value="MZ">Moçambique</option>
+                    <option value="MD">Moldávia</option>
+                    <option value="NI">Nicarágua</option>
+                    <option value="NG">Nigéria</option>
+                    <option value="NO">Noruega</option>
+                    <option value="NZ">Nova Zelândia</option>
+                    <option value="PS">Palestina</option>
+                    <option value="PA">Panamá</option>
+                    <option value="PG">Papua-Nova Guiné</option>
+                    <option value="PK">Paquistão</option>
+                    <option value="PY">Paraguai</option>
+                    <option value="PE">Peru</option>
+                    <option value="PL">Polônia</option>
+                    <option value="PT">Portugal</option>
+                    <option value="AD">Principado de Andorra</option>
+                    <option value="MC">Principado de Mônaco</option>
+                    <option value="KE">Quênia</option>
+                    <option value="DZ">República Democrática e Popular da Argélia</option>
+                    <option value="CF">República Centro-Africana</option>
+                    <option value="IE">República da Irlanda</option>
+                    <option value="DO">República Dominicana</option>
+                    <option value="CN">República Popular da China</option>
+                    <option value="AO">República Popular de Angola</option>
+                    <option value="RO">Romênia</option>
+                    <option value="RU">Rússia</option>
+                    <option value="WS">Samoa Ocidental</option>
+                    <option value="ST">São Tomé e Príncipe</option>
+                    <option value="SN">Senegal</option>
+                    <option value="SL">Serra Leoa</option>
+                    <option value="RS">Sérvia</option>
+                    <option value="SY">Síria</option>
+                    <option value="SO">Somália</option>
+                    <option value="SZ">Eswatini (Suazilândia)</option>
+                    <option value="SE">Suécia</option>
+                    <option value="CH">Suíça</option>
+                    <option value="SR">Suriname</option>
+                    <option value="TH">Tailândia</option>
+                    <option value="TW">Taiwan (República da China)</option>
+                    <option value="TG">Togo</option>
+                    <option value="TT">Trinidad e Tobago</option>
+                    <option value="TN">Tunísia</option>
+                    <option value="TR">Turquia</option>
+                    <option value="UA">Ucrânia</option>
+                    <option value="UY">Uruguai</option>
+                    <option value="VA">Vaticano</option>
+                    <option value="VE">Venezuela</option>
+                    <option value="VN">Vietnã</option>
+                    <option value="ZW">Zimbábue</option>
+                </select>
+                <br>
+
+
+                <br>
+                <!-- Campo: Escolha se possui CEP ou não -->
+                <label>Possui CEP?<span style="color: red;">*</span></label>
+                
+                <div class="escolhacep">
+                    <span style="margin-right: 10px;">Sim</span>
+                    <input type="radio" id="possui-cep-sim" name="possui-cep" value="sim" onchange="toggleCamposCEP()">
+                    <span style="margin-left: 10px;">Não</span>
+                    <input type="radio" id="possui-cep-nao" name="possui-cep" value="nao" onchange="toggleCamposCEP()">
+                </div>
+                <br>
+
+                <!-- Campos para preenchimento do CEP -->
+                <div id="campos-cep" style="display: none;">
+                    <label for="cep">CEP:</label>
+                    <input type="text" id="cep" name="cep" placeholder="Digite o CEP completo" oninput="formatarCEP()">
+                    <br>
+                </div>
+
+                <!-- Campos para preenchimento da cidade e coordenadas -->
+                <div id="campos-coordenadas" style="display: none;">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade">
+                    <br>
+                    <label for="latitude">Latitude:</label>
+                    <input type="text" id="latitude" name="latitude">
+                    <br>
+                    <label for="longitude">Longitude:</label>
+                    <input type="text" id="longitude" name="longitude">
+                    <br>
+                </div>
+
+                <label for="logradouro">Logradouro:<span style="color: red;">*</span></label>
+                <input type="text" id="logradouro" name="logradouro" required>
+                <br>
+                <label for="numero">Número:</label>
+                <input type="text" id="numero" name="numero">
+                <br>
+                <label for="complemento">Complemento:</label>
+                <input type="text" id="complemento" name="complemento">
+                <br>
+                <label for="bairro">Bairro:</label>
+                <input type="text" id="bairro" name="bairro">
+                <br>
+                <label for="cidade">Cidade:<span style="color: red;">*</span></label>
+                <input type="text" id="cidade" name="cidade" required>
+                <br>
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" name="estado">
+                <br>
+
+                <!-- Campo: Número do Contrato -->
+                <label for="numero-contrato">N° do Contrato:</label>
+                <input type="text" id="numero-contrato" name="numero-contrato">
+                <br>
+
+                <!-- Campo: Data do Contrato (Celebrado em) -->
+                <label for="celebradoEm">Celebrado em:</label>
+                <div class="date-input-container">
+                    <input type="text" id="celebradoEm" name="celebradoEm" placeholder="dd/mm/yyyy" readonly>
+                    <span class="calendar-icon"><i class="fas fa-calendar-alt"></i></span>
+                </div>
+
+
+                <!-- Campo: Custo da Obra -->
+                <label for="custo-obra">Custo da Obra:</label>
+                <input type="text" id="custo-obra" name="custo-obra" oninput="formatarDinheiro(this, 'BRL')">
+                <br>
+
+                <!-- Campo: Valor do Contrato -->
+                <label for="valor-contrato">Valor do Contrato:<span style="color: red;">*</span>:</label>
+                <input type="text" id="valor-contrato" name="valor-contrato" oninput="formatarDinheiro(this, 'BRL')"
+                    required>
+                <br>
+
+
+            </fieldset>
+
+
+            <!-- Botões de Avançar e Voltar -->
+            <input type="button" value="Voltar" data-etapa-atual="etapa2" data-etapa-seguinte="etapa1"
+                class="botao-voltar">
+            <input type="button" value="Avançar" data-etapa-atual="etapa2" data-etapa-seguinte="etapa3"
+                class="botao-avancar" onclick="validarCEP()">
+
+
+
+            <!-- Etapa 3: Outra etapa -->
+            <div class="etapa" id="etapa3">
+                <h1>Etapa 3: Outra etapa</h1>
+                <form id="form-step-3">
+                    <!-- Seu código para a terceira etapa aqui -->
+
+                    <!-- Botões de Avançar e Voltar -->
+                    <input type="button" value="Voltar" data-etapa-atual="etapa3" data-etapa-seguinte="etapa2"
+                        class="botao-voltar">
+                    <input type="button" value="Avançar" data-etapa-atual="etapa3" data-etapa-seguinte="etapa4"
+                        class="botao-avancar">
+
+                </form>
+            </div>
+
+            <!-- Etapa 4: Mais uma etapa -->
+            <div class="etapa" id="etapa4">
+                <h1>Etapa 4: Mais uma etapa</h1>
+                <form id="form-step-4">
+                    <!-- Seu código para a quarta etapa aqui -->
+
+                    <!-- Botões de Avançar e Voltar -->
+                    <input type="button" value="Voltar" data-etapa-atual="etapa4" data-etapa-seguinte="etapa3"
+                        class="botao-voltar">
+                    <input type="button" value="Avançar" data-etapa-atual="etapa4" data-etapa-seguinte="etapa5"
+                        class="botao-avancar">
+                </form>
+            </div>
+
+            <!-- Etapa 5: Última etapa -->
+            <div class="etapa" id="etapa5">
+                <h1>Etapa 5: Última etapa</h1>
+                <form id="form-step-5">
+                    <!-- Seu código para a última etapa aqui -->
+
+                    <!-- Botões de Avançar e Voltar -->
+                    <input type="button" value="Voltar" data-etapa-atual="etapa5" data-etapa-seguinte="etapa4"
+                        class="botao-voltar">
+                    <input type="button" value="Finalizar">
+                </form>
+            </div>
+
+        </form>
+    </div>
+
+    </form>
+
+    <script src="form.js"></script>
+    <!-- Inclui o flatpickr e o Font Awesome em seu projeto -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Arquivo de localização em português -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+
+</body>
+
+</html>
